@@ -26,14 +26,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({secret: 'Key', cookie: {maxAge: 6000000},saveUninitialized: true, resave: true}));
 
-app.use(session({
-  secret: 'Key',
-  name: "test",
-  cookie: { maxAge: 3 * 24 * 60 * 60 * 1000 }, //user won't have to login for 3 days
-  store: new (require('express-sessions'))({
-      storage: 'mongodb'
-  })
-}));
+// app.use(session({
+//   secret: 'Key',
+//   name: "test",
+//   cookie: { maxAge: 3 * 24 * 60 * 60 * 1000 }, //user won't have to login for 3 days
+//   store: new (require('express-session'))({
+//       storage: 'mongodb',
+      
+//       expire: 86400 // optional 
+//   })
+// }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
