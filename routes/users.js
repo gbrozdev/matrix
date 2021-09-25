@@ -7,7 +7,7 @@ var fun = require('../functions')
 /* GET users listing. */
 
 router.get('/', function(req, res) {
-  res.render('admin');
+  res.render('index');
 });
 router.get('/signup',(req,res)=>{
   res.render('signup')
@@ -26,7 +26,7 @@ router.get('/login',  function(req, res) {
 router.post('/login',(req,res)=>{
   fun.doLogin(req.body).then((user)=>{
     console.log(user);
-    res.redirect('index')
+    res.redirect('/')
   })
 })
 module.exports = router;
