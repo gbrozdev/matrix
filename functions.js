@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 var db = require('./connection')
+var ObjectId = require('mongodb').ObjectId
 
 
 module.exports={
@@ -15,15 +16,19 @@ module.exports={
     }, 
     doLogin:(userdata)=>{
         return new Promise(async(resolve,reject)=>{
-            const user= await db.get().collection('user').findOne({email:userdata.email})
+            let validPassword
+            let response = {}
+            let user= await db.get().collection('user').findOne({email:userdata.email})
             validPassword= await bcrypt.compare(userdata.password,user.password)
 
                 if(!validPassword){
                     console.log('login failed');
+                    resolve({status:false})
                 }else {
                     console.log('login success');
-                    
-                    resolve()
+                    response.user = user
+                    response.status = true
+                    resolve(response)
                 }
             })  
     }

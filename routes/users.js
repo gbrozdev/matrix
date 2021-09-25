@@ -15,7 +15,7 @@ router.get('/signup',(req,res)=>{
 router.post('/signup',(req,res)=>{
   fun.doSignup(req.body).then((user)=>{
     console.log(user);
-    res.redirect('/users/login')
+    res.render('index',{user})
   })
 
 })
@@ -24,9 +24,17 @@ router.get('/login',  function(req, res) {
 });
 
 router.post('/login',(req,res)=>{
-  fun.doLogin(req.body).then((user)=>{
-    console.log(user);
-    res.redirect('/')
+  fun.doLogin(req.body).then((response)=>{
+    console.log(response);
+    if(response.status){
+      //req.session.loggedIn = true
+      req.session.user = response.user
+      res.redirect('/')
+    }else{
+      res.redirect('/users/login')
+    }
+
   })
 })
+
 module.exports = router;

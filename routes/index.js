@@ -5,7 +5,14 @@ var ObjectId = require('mongodb').ObjectId
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index');
+    let user = req.session.user
+    console.log(user);
+    if (user) {
+        res.render('index',{user});
+    }
+    else{
+        res.render('signup');
+    }
 });
 router.get('/notes', async function(req, res) {
     let notes = await db.get().collection('notes').find().toArray()  
@@ -27,6 +34,7 @@ router.get('/products', async function(req, res) {
     res.render('products/products',{products});
 });
 router.get('/products/:id', async function(req, res) {
+    console.log(req.params);
     let id = req.params.id
     let product = await db.get().collection('products').findOne({_id:ObjectId(id)})
     res.render('products/productlist',{product});
